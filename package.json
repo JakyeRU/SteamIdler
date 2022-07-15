@@ -1,0 +1,19 @@
+{
+  "name": "steamidler",
+  "version": "1.0.0",
+  "description": "A very light idling script, for boosting playtime, without using computer resources.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakyeRU/SteamIdler.git"
+  },
+  "author": "JakyeRU",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/JakyeRU/SteamIdler/issues"
+  },
+  "homepage": "https://github.com/JakyeRU/SteamIdler#readme"
+}
