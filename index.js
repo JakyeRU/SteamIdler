@@ -76,7 +76,7 @@ function run(game) {
                 autoRelogin: true
             })
         } else {
-            console.log(`[${chalk.yellow('SYSTEM')}] Error: ${error.error}`);
+            console.log(`[${chalk.yellow('SYSTEM')}] Error: ${error}`);
         }
     });
 
