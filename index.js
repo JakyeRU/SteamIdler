@@ -67,5 +67,6 @@ function run(game) {
     client.logOn({
         accountName: process.env.STEAM_USERNAME,
         password: process.env.STEAM_PASSWORD,
+        rememberPassword: true
     })
 }
