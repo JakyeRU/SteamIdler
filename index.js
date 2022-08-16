@@ -8,6 +8,7 @@ const SteamUser = require('steam-user');
 
 const packageInfo = require('./package.json');
 const games = require('./games.json');
+let playing_current_session = false;
 
 // Printing "Steam Idler" Ascii Logo \\
 console.log(asciiart({
@@ -35,23 +36,48 @@ function run(game) {
     // Creating the client
     const client = new SteamUser();
 
-    client.on('loggedOn', (details, parental) => {
+    client.once('loggedOn', (details, parental) => {
         console.log(`[${chalk.yellow('SYSTEM')}] Connection to Steam established.`);
     });
 
-    client.on('accountInfo', (...data) => {
+    client.once('accountInfo', (...data) => {
         console.log(`[${chalk.yellow('SYSTEM')}] Account info received.`);
         console.log(`[${chalk.yellow('SYSTEM')}] Logged in as ${chalk.yellow(data[0])} from ${chalk.yellow(data[1])}.`);
 
         client.setPersona(SteamUser.EPersonaState.Online);
         console.log(`[${chalk.yellow('SYSTEM')}] Set persona state to ${chalk.blueBright('online')}.`);
 
+        playing_current_session = true;
         client.gamesPlayed([game.appid]);
         console.log(`[${chalk.yellow('SYSTEM')}] Set game to ${chalk.greenBright(game.name)}.`);
     })
 
-    client.on('error', function (e) {
-        console.log(`[${chalk.yellow('SYSTEM')}] Error: ${e}`);
+    client.on('playingState', (blocked, playingApp) => {
+        if (blocked) {
+            playing_current_session = false;
+        } else {
+            if (!playing_current_session) {
+                playing_current_session = true;
+
+                client.gamesPlayed([game.appid]);
+                console.log(`[${chalk.yellow('SYSTEM')}] Relaunched ${chalk.greenBright(game.name)}.`);
+            }
+        }
+    })
+
+    client.on('error', error => {
+        if (error.eresult === 6) {
+            console.log(`[${chalk.yellow('SYSTEM')}] Logged in elsewhere. Waiting to relaunch game...`);
+
+            client.logOn({
+                accountName: process.env.STEAM_USERNAME,
+                password: process.env.STEAM_PASSWORD,
+                rememberPassword: true,
+                autoRelogin: true
+            })
+        } else {
+            console.log(`[${chalk.yellow('SYSTEM')}] Error: ${error.error}`);
+        }
     });
 
     client.on('disconnected', () => {
@@ -67,6 +93,7 @@ function run(game) {
     client.logOn({
         accountName: process.env.STEAM_USERNAME,
         password: process.env.STEAM_PASSWORD,
-        rememberPassword: true
+        rememberPassword: true,
+        autoRelogin: true
     })
 }
