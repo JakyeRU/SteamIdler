@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/JakyeRU/SteamIdler#readme",
   "dependencies": {
-    "asciiart-logo": "^0.2.7"
+    "asciiart-logo": "^0.2.7",
+    "chalk": "^4.1.2",
+    "cli-select": "^1.1.2",
+    "dotenv": "^16.0.1",
+    "readline-sync": "^1.4.10",
+    "steam-user": "^4.24.5"
   }
 }
