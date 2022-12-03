@@ -9,7 +9,7 @@ const readline = require('readline').createInterface({
 const chalk = require('chalk');
 const SteamUser = require('steam-user');
 
-const packageInfo = require('./package.json');
+const packageInfo = require('../package.json');
 let playing_current_session = false;
 
 // Printing "Steam Idler" Ascii Logo \\

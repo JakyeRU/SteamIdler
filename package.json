@@ -2,9 +2,9 @@
   "name": "steamidler",
   "version": "1.0.0",
   "description": "Steam Idler is a very light idling script, for boosting playtime, without using computer resources.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
