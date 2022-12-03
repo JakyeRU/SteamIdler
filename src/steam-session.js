@@ -17,6 +17,10 @@ module.exports = new Promise(async (resolve, reject) => {
         return resolve(session);
     });
 
+    session.on('remoteInteraction', () => {
+        return consoleHelper.info('Code scanned! Please confirm the login request on the Steam Mobile Authenticator app.');
+    });
+
     session.on('timeout', () => {
         return reject('Timed out. Please try again.');
     });
