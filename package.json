@@ -20,8 +20,7 @@
   "dependencies": {
     "asciiart-logo": "^0.2.7",
     "chalk": "^4.1.2",
-    "dotenv": "^16.0.1",
-    "readline-sync": "^1.4.10",
+    "dotenv": "^16.0.3",
     "steam-user": "^4.26.0"
   }
 }
