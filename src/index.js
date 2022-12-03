@@ -6,6 +6,12 @@ const steamClient = require("./steam-client");
 
 consoleHelper.boot();
 
+if (!fs.existsSync('./env')) {
+    consoleHelper.warn('No .env file found. Attempting to create one...');
+    fs.copyFileSync('./.env.example', './.env');
+    consoleHelper.success('Successfully created .env file.');
+}
+
 if (!process.env.REFRESH_TOKEN) {
     consoleHelper.error('No refresh token found in .env file. Attempting to get one from Steam...');
 
