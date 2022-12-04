@@ -6,7 +6,7 @@ const steamClient = require("./steam-client");
 
 consoleHelper.boot();
 
-if (!fs.existsSync('./env')) {
+if (!fs.existsSync('./.env')) {
     consoleHelper.warn('No .env file found. Attempting to create one...');
     fs.copyFileSync('./.env.example', './.env');
     consoleHelper.success('Successfully created .env file.');
