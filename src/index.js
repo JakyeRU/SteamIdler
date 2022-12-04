@@ -3,6 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const consoleHelper = require('./helpers/console');
 const steamClient = require("./steam-client");
+const jwt = require('./helpers/jwt');
 
 consoleHelper.boot();
 
@@ -28,5 +29,14 @@ if (!process.env.REFRESH_TOKEN) {
         process.exit(0);
     }).catch(consoleHelper.error);
 } else {
+    if (jwt.getExpiration(process.env.REFRESH_TOKEN).expired) {
+        consoleHelper.error('Refresh token has expired. Please delete the REFRESH_TOKEN value from the .env file and restart the process.');
+        process.exit(0);
+    }
+
+    if (jwt.getExpiration(process.env.REFRESH_TOKEN).expiresInDays < 7) {
+        consoleHelper.warn('Refresh token will expire soon. Please delete the REFRESH_TOKEN value from the .env file and restart the process.');
+    }
+
     steamClient();
 }
