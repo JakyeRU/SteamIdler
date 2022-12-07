@@ -11,7 +11,7 @@ module.exports = function () {
     });
 
     client.on('loggedOn', (details, parental) => {
-        consoleHelper.info('Connection to Steam established.');
+        if (!playing_current_session) consoleHelper.info('Connection to Steam established.');
     });
 
     client.on('accountInfo', (...data) => {
@@ -51,7 +51,9 @@ module.exports = function () {
     });
 
     client.on('disconnected', () => {
-        consoleHelper.warn('Disconnected from Steam.');
+        consoleHelper.warn('Disconnected from Steam. Attempting to reconnect...');
+
+        client.logOn({ refreshToken: process.env.REFRESH_TOKEN });
     });
 
     client.logOn({
