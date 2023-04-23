@@ -21,9 +21,15 @@ module.exports = function () {
         client.setPersona(steamUser.EPersonaState.Online);
         consoleHelper.info('Set persona state to online.');
 
-        playing_current_session = true;
-        client.gamesPlayed(games);
-        consoleHelper.info(`Set game to ${games}.`);
+        const ownPersona = client.getPersonas([client.steamID]);
+
+        ownPersona.then(data => {
+            if (!ownPersona.gameid) {
+                playing_current_session = true;
+                client.gamesPlayed(games);
+                consoleHelper.info(`Set game to ${games}.`);
+            }   
+        });
     });
 
     client.on('error', error => {
