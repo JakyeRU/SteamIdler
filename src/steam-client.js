@@ -23,15 +23,13 @@ module.exports = function () {
 
         const ownPersona = client.getPersonas([client.steamID]);
 
-        // check if the persona is already playing any games
-        if (ownPersona[client.steamID].gameid) {
-            consoleHelper.info(`Already playing ${ownPersona[client.steamID].gameid}.`);
-            return;
-        } else {
-            playing_current_session = true;
-            client.gamesPlayed(games);
-            consoleHelper.info(`Set game to ${games}.`);
-        }
+        ownPersona.then(data => {
+            if (!ownPersona.gameid) {
+                playing_current_session = true;
+                client.gamesPlayed(games);
+                consoleHelper.info(`Set game to ${games}.`);
+            }   
+        });
     });
 
     client.on('error', error => {
