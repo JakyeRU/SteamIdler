@@ -21,17 +21,9 @@ module.exports = function () {
         client.setPersona(steamUser.EPersonaState.Online);
         consoleHelper.info('Set persona state to online.');
 
-        const ownPersona = client.getPersonas([client.steamID]);
-
-        // check if the persona is already playing any games
-        if (ownPersona[client.steamID].gameid) {
-            consoleHelper.info(`Already playing ${ownPersona[client.steamID].gameid}.`);
-            return;
-        } else {
-            playing_current_session = true;
-            client.gamesPlayed(games);
-            consoleHelper.info(`Set game to ${games}.`);
-        }
+        playing_current_session = true;
+        client.gamesPlayed(games);
+        consoleHelper.info(`Set game to ${games}.`);
     });
 
     client.on('error', error => {
