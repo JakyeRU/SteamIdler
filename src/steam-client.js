@@ -33,7 +33,12 @@ module.exports = function () {
 
     client.on('playingState', (blocked, playingApp) => {
         if (blocked) {
-            consoleHelper.warn('Logged in elsewhere. Waiting to relaunch game...');
+            client.getProductInfo([playingApp], [], (error, apps) => {
+                if (error) return consoleHelper.warn('Logged in elsewhere. Waiting to relaunch game...');
+
+                consoleHelper.warn(`Playing ${apps[playingApp].appinfo.common.name} elsewhere. Waiting to relaunch game...`)
+            });
+            
             playing_current_session = false;
         } else {
             if (!playing_current_session) {
