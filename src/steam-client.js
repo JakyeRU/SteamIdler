@@ -20,16 +20,6 @@ module.exports = function () {
 
         client.setPersona(steamUser.EPersonaState.Online);
         consoleHelper.info('Set persona state to online.');
-
-        const ownPersona = client.getPersonas([client.steamID]);
-
-        ownPersona.then(data => {
-            if (!ownPersona.gameid) {
-                playing_current_session = true;
-                client.gamesPlayed(games);
-                consoleHelper.info(`Set game to ${games}.`);
-            }   
-        });
     });
 
     client.on('error', error => {
@@ -38,20 +28,19 @@ module.exports = function () {
             process.exit(1);
         }
 
-        consoleHelper.warn('Logged in elsewhere. Waiting to relaunch game...');
-
         client.logOn({ refreshToken: process.env.REFRESH_TOKEN });
     });
 
     client.on('playingState', (blocked, playingApp) => {
         if (blocked) {
+            consoleHelper.warn('Logged in elsewhere. Waiting to relaunch game...');
             playing_current_session = false;
         } else {
             if (!playing_current_session) {
                 playing_current_session = true;
 
                 client.gamesPlayed(games);
-                consoleHelper.info(`Relaunched ${games}.`);
+                consoleHelper.info(`Launched ${games}.`);
             }
         }
     });
