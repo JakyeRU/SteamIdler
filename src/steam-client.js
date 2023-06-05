@@ -52,8 +52,6 @@ module.exports = function () {
 
     client.on('disconnected', () => {
         consoleHelper.warn('Disconnected from Steam. Attempting to reconnect...');
-
-        client.logOn({ refreshToken: process.env.REFRESH_TOKEN });
     });
 
     client.logOn({
