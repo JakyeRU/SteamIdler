@@ -18,8 +18,12 @@ module.exports = function () {
         consoleHelper.info('Account info received.');
         consoleHelper.info(`Logged in as ${data[0]} from ${data[1]}.`);
 
-        client.setPersona(steamUser.EPersonaState.Online);
-        consoleHelper.info('Set persona state to online.');
+        const personaState = process.env.INVISIBLE_MODE === 'true' 
+            ? steamUser.EPersonaState.Invisible 
+            : steamUser.EPersonaState.Online;
+
+        client.setPersona(personaState);
+        consoleHelper.info(`Set persona state to ${personaState === steamUser.EPersonaState.Invisible ? 'invisible' : 'online'}.`);
     });
 
     client.on('error', error => {
